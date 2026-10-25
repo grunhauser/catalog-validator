@@ -43,7 +43,7 @@ type Rule = (row: ProductRow, rowNumber: number, feed: ProductRow[]) => Issue[];
 
 ## Rules
 
-- [ ] `required-fields`: id, title, price, link, image_link present and not empty
+- [x] `required-fields`: id, title, price, link, image_link present and not empty
 - [ ] `duplicate-id`: the same id appears in more than one row
 - [ ] `price-format`: price is a positive number (accepts `10.90` and `10,90`)
 - [ ] `url-format`: link and image_link are absolute http(s) URLs
