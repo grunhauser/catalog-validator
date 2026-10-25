@@ -1,9 +1,11 @@
 import type { ParseResult, ProductRow } from '../types/catalog';
+import { flatten } from './flatten';
 
 /**
  * Parses a JSON feed. Accepts either an array of products or an object with a
  * "products" array (a common shape for exported catalogs).
- * Every value is converted to a string so rules see the same shape as CSV.
+ * Nested objects are flattened to dot paths (price.value), and every value is
+ * converted to a string so rules see the same shape as CSV.
  */
 export function parseJson(text: string): ParseResult {
   let data: unknown;
@@ -26,7 +28,7 @@ export function parseJson(text: string): ParseResult {
     if (item === null || typeof item !== 'object' || Array.isArray(item)) {
       return { ok: false, error: `Item ${i + 1} is not an object.` };
     }
-    rows.push(toStringRow(item as Record<string, unknown>));
+    rows.push(toStringRow(flatten(item)));
   }
   return { ok: true, rows };
 }

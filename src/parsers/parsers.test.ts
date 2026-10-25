@@ -22,6 +22,11 @@ describe('parseFeed', () => {
     expect(r.ok && r.rows).toEqual([{ id: 'A' }]);
   });
 
+  it('flattens nested JSON objects', () => {
+    const r = parseFeed('[{"id": "1", "price": {"value": 10, "currency": "EUR"}}]');
+    expect(r.ok && r.rows).toEqual([{ id: '1', 'price.value': '10', 'price.currency': 'EUR' }]);
+  });
+
   it('reports invalid JSON', () => {
     const r = parseFeed('[{"id": }]');
     expect(r.ok).toBe(false);
